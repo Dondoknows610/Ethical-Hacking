@@ -2,7 +2,7 @@
 <h2> Description</h2>
 <b>A SQL Injection demonstration as part of a series of hands on labs for ethical Hackings via Coursera.</b>
 <br />
-![Image](https://github.com/user-attachments/assets/62a6d113-98af-4610-b226-836dc6d8aafa)
+
 
 <h3>🏙 💉 SQL Injections  </h3>
 <h2>Tools</h2>
