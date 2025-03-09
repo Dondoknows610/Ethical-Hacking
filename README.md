@@ -52,15 +52,54 @@ Well, if you look at the souce code in the page below we can see that the input 
 
 <h3>Diving Deeper</h3> 
 
-Now we can put some code into it by putting the symbol '
+1. We start by testing the vulnerability, we can do this by putting the symbol '
 
 ![Testing SQL with '](https://github.com/user-attachments/assets/6244c10a-c1a6-4083-bf5e-8b32f556289b)
 
-This the shows that input field and the database is vulnerable as it interprets the symbol as part of the code
+This the shows that input field and the database is vulnerable as it interprets the symbol as part of the code.
 
 ![' input Error](https://github.com/user-attachments/assets/2cb818ae-8d3c-4076-acb7-f6a5dc6e3459)
 
+Note: By opening the source code we can see that the ' symbol now sits between two other ' symbols and thus causing the error. Instead of having the correct query the syntax now reads 
 
+ SELECT first_name, last_name FROM users WHERE user_id = '''
+
+ 2. Now that we know it is vulnerable we will simply add the number two to see how the output.
+
+![regular input](https://github.com/user-attachments/assets/afb45415-f4ef-4614-82e4-6553b2d6254d)
+
+
+  
+ 3.  Next we add two statements into the query as opposed to just our regular input of a single number.
+
+![double statement i e](https://github.com/user-attachments/assets/bc768107-e1f1-4900-af33-3f09eff12b5d)
+
+
+<h2>Mapping our Database and navigating with SQL Injections </h2>
+
+![compass](https://github.com/user-attachments/assets/38bdf52a-48e8-4f31-b0d9-d0ed38c5a73a)
+
+ 4. Mapping out our database. Now we will get into our first command ORDER which will be put into our query as the second statement so we will use ORDER BY. This will help us to map out the database by helping us with listing the columns. Our syntax will then be 2' ORDER BY 2 #' where 2 is our user ID and a normal input but the ORDER BY is our SQL Injection
+
+ Note: The hashtag is the comment indicator in html so anything after the hashtag is interpreted as a comment as opposed to code.
+
+ ![2' order by '2](https://github.com/user-attachments/assets/5854bf8c-9d27-4213-b26d-bf16d958e07e)
+
+
+4.b we will continue to map the columns by changing the 2 to a 3 so we will use 
+2' ORDER BY 3 #'
+Which gives us an error and we can now deduct that there are only 2 columns.
+
+![2' ORDER BY 3 '#](https://github.com/user-attachments/assets/a3370e87-4928-4f55-be53-d292fc5e7527)
+
+  
+5. Using the UNION command to be able to gather results from two commands. We Will type 2' UNION SELECT 1,2 #' and this will give us the regular output from the user ID 2 + the order of the columns from the second statement
+ ![UNION SELECT](https://github.com/user-attachments/assets/69ec8b5f-3a4b-4737-80a4-b97adbc19cd5)
+
+6. Finding the name of the database can be done by our double statement which again follows the regular input of 2 and the our second statement which will be UNION SELECT database(),user() #' so all together we have our input 2' UNION SELECT database(),user() #'
+![UNION SELECT database(),user() #'](https://github.com/user-attachments/assets/34eee87e-b610-4559-bb06-4ecf63fd14c3)
+
+   
 </p>
 
 <!--
